@@ -280,5 +280,29 @@ public class Complex extends Number  {
     public String toString() {
         return "(" + real + ", " + imaginary + "i)";
     }
+    
+    /**
+     * Protected method for creation of complex numbers.
+     *
+     * @param realPart    the real part.
+     * @param imaginaryPart    the imaginary part.
+     * @return    the complex number created.
+     */
+    protected Complex createComplex(double realPart,
+                                    double imaginaryPart) {
+        return new Complex(realPart, imaginaryPart);
+    }
+
+    /**
+     * Static method for creation of complex numbers.
+     *
+     * @param realPart    the real part.
+     * @param imaginaryPart    the imaginary part.
+     * @return    the complex number created.
+     */
+    public static Complex valueOf(double realPart,
+                                  double imaginaryPart) {
+        return new Complex(realPart, imaginaryPart);
+    }
 
 }
