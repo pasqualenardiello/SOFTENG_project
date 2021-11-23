@@ -1,5 +1,7 @@
 import java.util.EmptyStackException;
 import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Implementation of modified stack
@@ -90,7 +92,17 @@ public class Advanced_Stack<E> extends Stack<E> {
 		this.stack_push(t2);
 	}
 	
+	/**
+	 * Collects all the elements of the stack into a list.
+	 * 
+	 * @return	the list of elements.
+	 * @throws EmptyStackException	if the stack is empty.
+	 */
+	public ArrayList<E> stack_collect() throws EmptyStackException {
+		if(this.isEmpty())
+			throw new EmptyStackException();
+		ArrayList<E> list = new ArrayList<>(this);
+		return list;
+	}
 	
-	
-
 }

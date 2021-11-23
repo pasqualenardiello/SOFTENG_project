@@ -219,6 +219,29 @@ public class Complex extends Number  {
     public Complex negate() {
         return createComplex(-real, -imaginary);
     }
+    
+    /**
+     * Subtracts the given complex subtrahend
+     * to the calling number.
+     * 
+     * @param subtrahend	the subtrahend.
+     * @return	the difference.
+     */
+    public Complex subtract(Complex subtrahend) {
+        return createComplex(real - subtrahend.getReal(),
+                imaginary - subtrahend.getImaginary());
+    }
+
+    /**
+     * Subtracts the given double subtrahend
+     * to the calling number.
+     * 
+     * @param subtrahend	the subtrahend.
+     * @return	the difference.
+     */
+    public Complex subtract(double subtrahend) {
+        return createComplex(real - subtrahend, imaginary);
+    }
 
     /**
      * Calculates the exponential in base e.
@@ -313,6 +336,67 @@ public class Complex extends Number  {
     public static Complex valueOf(double realPart,
                                   double imaginaryPart) {
         return new Complex(realPart, imaginaryPart);
+    }
+    
+    /**
+     * Calculates the absolute value of the calling number.
+     * 
+     * @return	the absolute value of the number.
+     */
+    public double abs() {
+        if (Math.abs(real) < Math.abs(imaginary)) {
+            if (real == 0.0) {
+                return Math.abs(imaginary);
+            }
+            double q = real / imaginary;
+            return Math.abs(imaginary) * Math.sqrt(1 + q * q);
+        } else {
+            if (imaginary == 0.0) {
+                return Math.abs(real);
+            }
+            double q = imaginary / real;
+            return Math.abs(real) * Math.sqrt(1 + q * q);
+        }
+    }
+
+    /**
+     * The absolute value as a integer.
+     * 
+     * @return the integer absolute value.
+     */
+    @Override
+    public int intValue() {
+        return (int)abs();
+    }
+
+    /**
+     * The absolute value as a long int.
+     * 
+     * @return the long int absolute value.
+     */
+    @Override
+    public long longValue() {
+        return (long)abs();
+    }
+
+    /**
+     * The absolute value as a float.
+     * 
+     * @return the float absolute value.
+     */
+    @Override
+    public float floatValue() {
+        return (float)abs();
+    }
+
+    /**
+     * The absolute value as a double.
+     * 
+     * @return the double absolute value.
+     */
+    @Override
+    public double doubleValue() {
+        return abs();
     }
 
 }
