@@ -1,7 +1,7 @@
 /**
  * Representation of complex numbers
  * with basic built-in functionality.
- * 
+ *
  * @author Group 1
  *
  */
@@ -27,7 +27,7 @@ public class Complex extends Number  {
     /**
      * Creates a complex number from a real one,
      * giving it an imaginary part of zero.
-     * 
+     *
      * @param real	the real number to be converted.
      */
     public Complex(double real) {
@@ -37,7 +37,7 @@ public class Complex extends Number  {
     /**
      * Creates a complex number when given
      * both the real and imaginary part.
-     * 
+     *
      * @param real	the real part.
      * @param imaginary	the imaginary part.
      */
@@ -48,7 +48,7 @@ public class Complex extends Number  {
 
     /**
      * Adds a complex number to the calling number.
-     * 
+     *
      * @param addend	the addend.
      * @return	the sum.
      */
@@ -59,7 +59,7 @@ public class Complex extends Number  {
 
     /**
      * Adds a real number to the calling number.
-     * 
+     *
      * @param addend	the addend.
      * @return	the sum.
      */
@@ -70,7 +70,7 @@ public class Complex extends Number  {
     /**
      * Calculates the complex with an imaginary part
      * of opposite sign to the calling number.
-     * 
+     *
      * @return	the conjugate number.
      */
     public Complex conjugate() {
@@ -79,7 +79,7 @@ public class Complex extends Number  {
 
     /**
      * Divides the calling number by the given complex divisor.
-     * 
+     *
      * @param divisor	the divisor.
      * @return	the quotient.
      */
@@ -104,7 +104,7 @@ public class Complex extends Number  {
 
     /**
      * Divides the calling number by the given real divisor.
-     * 
+     *
      * @param divisor	the divisor.
      * @return	the quotient.
      */
@@ -118,7 +118,7 @@ public class Complex extends Number  {
 
     /**
      * Checks the equality conditions.
-     * 
+     *
      * @return	the boolean equality flag.
      */
     @Override
@@ -139,7 +139,7 @@ public class Complex extends Number  {
 
     /**
      * Calculates the hash value of a given double.
-     * 
+     *
      * @param value	the value to be hashed.
      * @return	the hashcode.
      */
@@ -150,7 +150,7 @@ public class Complex extends Number  {
     /**
      * Calculates the hash value from both
      * the imaginary and real parts.
-     * 
+     *
      * @return	the hashcode.
      */
     @Override
@@ -161,7 +161,7 @@ public class Complex extends Number  {
 
     /**
      * Provides the imaginary part as a double.
-     * 
+     *
      * @return	the imaginary part.
      */
     public double getImaginary() {
@@ -170,7 +170,7 @@ public class Complex extends Number  {
 
     /**
      * Provides the real part as a double.
-     * 
+     *
      * @return	the real part.
      */
     public double getReal() {
@@ -180,7 +180,7 @@ public class Complex extends Number  {
     /**
      * Multiplies the calling number for
      * the given complex factor.
-     * 
+     *
      * @param factor	the factor.
      * @return	the product.
      */
@@ -192,7 +192,7 @@ public class Complex extends Number  {
     /**
      * Multiplies the calling number for
      * the given integer factor.
-     * 
+     *
      * @param factor	the factor.
      * @return	the product.
      */
@@ -203,7 +203,7 @@ public class Complex extends Number  {
     /**
      * Multiplies the calling number for
      * the given double factor.
-     * 
+     *
      * @param factor	the factor.
      * @return	the product.
      */
@@ -213,7 +213,7 @@ public class Complex extends Number  {
 
     /**
      * Changes the sign of the calling number to the opposite one.
-     * 
+     *
      * @return	the negated number.
      */
     public Complex negate() {
@@ -222,7 +222,7 @@ public class Complex extends Number  {
 
     /**
      * Calculates the exponential in base e.
-     * 
+     *
      * @return	the exponential of e.
      */
     public Complex exp() {
@@ -230,11 +230,21 @@ public class Complex extends Number  {
         return createComplex(expReal *  Math.cos(imaginary),
                 expReal * Math.sin(imaginary));
     }
+    
+    /**
+     * Calculates the logarithm in base e.
+     *
+     * @return    the logarithm in base e.
+     */
+        public Complex log() {
+            return createComplex(Math.log(abs()),
+                    Math.atan2(imaginary, real));
+        }
 
     /**
      * Calculates the power of the calling number
      * at the given complex exponent.
-     * 
+     *
      * @param x	the exponent.
      * @return	the power.
      */
@@ -245,7 +255,7 @@ public class Complex extends Number  {
     /**
      * Calculates the power of the calling number
      * at the given double exponent.
-     * 
+     *
      * @param x	the exponent.
      * @return	the power.
      */
@@ -255,7 +265,7 @@ public class Complex extends Number  {
 
     /**
      * Calculates the square root of the calling number.
-     * 
+     *
      * @return	the square root.
      */
     public Complex sqrt() {
@@ -273,7 +283,7 @@ public class Complex extends Number  {
 
     /**
      * String representation of complex number.
-     * 
+     *
      * @return	the string representation.
      */
     @Override
