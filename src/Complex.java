@@ -1,3 +1,6 @@
+package unisa.group1.test_scalc;
+import java.io.Serializable;
+
 /**
  * Representation of complex numbers
  * with basic built-in functionality.
@@ -5,10 +8,10 @@
  * @author Group 1
  *
  */
-public class Complex extends Number  {
+public class Complex extends Number implements Serializable {
 
 	
-	/** The imaginary constant. */
+    /** The imaginary constant. */
     public static final Complex I = new Complex(0.0, 1.0);
     /** Representation of 1. */
     public static final Complex ONE = new Complex(1.0, 0.0);
@@ -31,7 +34,7 @@ public class Complex extends Number  {
      * @param real	the real number to be converted.
      */
     public Complex(double real) {
-        this(real, 0.0);
+        this(Math.round(real * 100.0) / 100.0, 0.0);
     }
 
     /**
@@ -42,8 +45,8 @@ public class Complex extends Number  {
      * @param imaginary	the imaginary part.
      */
     public Complex(double real, double imaginary) {
-        this.real = real;
-        this.imaginary = imaginary;
+        this.real = Math.round(real * 100.0) / 100.0;
+        this.imaginary = Math.round(imaginary * 100.0) / 100.0;
     }
 
     /**
@@ -311,7 +314,7 @@ public class Complex extends Number  {
      */
     @Override
     public String toString() {
-        return "(" + real + ", " + imaginary + "i)";
+        return "(" + real + ((imaginary >= 0)? "+" : "") + imaginary + "i)";
     }
     
     /**
