@@ -5,12 +5,17 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.complex.ComplexFormat;
 
 /**
  * Basic implementation of a stack based
@@ -20,10 +25,132 @@ import java.util.logging.Logger;
  *
  */
 public class Calculator {
+    
+    
+    /**
+     * Auxiliary internal class for complex numbers.
+     *
+     */
+    public class OPT_Complex extends Complex implements Serializable {
+        
+        
+        /** The output format. */
+        ComplexFormat format;
+        /** The numbering format. */
+        NumberFormat nf = NumberFormat.getInstance();
+        
+        
+        /**
+         * Overridden constructor.
+         *
+         * @param real  the ral part.
+         * @param imaginary the imaginary part.
+         */
+        public OPT_Complex(double real, double imaginary) {
+            super(real, imaginary);
+        }
+        
+        /**
+         * Overridden constructor.
+         *
+         * @param c the basic complex number.
+         */
+        public OPT_Complex(org.apache.commons.math.complex.Complex c) {
+            super(c.getReal(), c.getImaginary());
+        }
+
+        /**
+         * Overridden sqrt.
+         *
+         * @return  the square root.
+         */
+        @Override
+        public OPT_Complex sqrt() {
+            return new OPT_Complex(super.sqrt());
+        }
+
+        /**
+         * Overridden power.
+         *
+         * @param x the exponent.
+         * @return  the power.
+         */
+        @Override
+        public OPT_Complex pow(Complex x) {
+            return new OPT_Complex(super.pow(x));
+        }
+
+        /**
+         * Overridden subtract.
+         *
+         * @param rhs   the subtrahend.
+         * @return  the difference.
+         */
+        @Override
+        public OPT_Complex subtract(Complex rhs) {
+            return new OPT_Complex(super.subtract(rhs));
+        }
+
+        /**
+         * Overridden negate.
+         *
+         * @return  the sign swapped number.
+         */
+        @Override
+        public OPT_Complex negate() {
+            return new OPT_Complex(super.negate());
+        }
+
+        /**
+         * Overridden multiply.
+         *
+         * @param rhs   the factor.
+         * @return  the product.
+         */
+        @Override
+        public OPT_Complex multiply(Complex rhs) {
+            return new OPT_Complex(super.multiply(rhs));
+        }
+
+        /**
+         * Overridden divide.
+         *
+         * @param rhs   the divisor.
+         * @return  the quotient.
+         */
+        @Override
+        public OPT_Complex divide(Complex rhs) {
+            return new OPT_Complex(super.divide(rhs));
+        }
+
+        /**
+         * Overridden add.
+         *
+         * @param rhs   the addend.
+         * @return  the sum.
+         */
+        @Override
+        public OPT_Complex add(Complex rhs) {
+            return new OPT_Complex(super.add(rhs));
+        }
+        
+        /**
+         * Overridden toString with ComplexFormat support.
+         *
+         * @return  the formatted string.
+         */
+        @Override
+        public String toString() {
+            nf.setMaximumFractionDigits(3);
+            format = new ComplexFormat(nf);
+            return "(" + format.format(this) + ")";
+        }
+        
+    }
 	
 	
 	/** The stack in which values are stored. */
-	private Advanced_Stack<Complex> stack;
+	private Advanced_Stack<OPT_Complex> stack;
 
 	
 	/**
@@ -41,7 +168,7 @@ public class Calculator {
 	 * 
 	 * @param c	the operand.
 	 */
-	public void push_num(Complex c) {
+	public void push_num(OPT_Complex c) {
 		stack.stack_push(c);
 	}
 	
@@ -50,8 +177,8 @@ public class Calculator {
 	 * 
 	 */
 	public void sum() {
-		ArrayList<Complex> list = stack.stack_collect();
-		Complex tmp = list.get(0);
+		ArrayList<OPT_Complex> list = stack.stack_collect();
+		OPT_Complex tmp = list.get(0);
 		for(int i = 1; i < list.size(); i++)
 			tmp = tmp.add(list.get(i));
                 
@@ -64,8 +191,8 @@ public class Calculator {
 	 * 
 	 */
 	public void subtract() {
-		ArrayList<Complex> list = stack.stack_collect();
-		Complex tmp = list.get(0);
+		ArrayList<OPT_Complex> list = stack.stack_collect();
+		OPT_Complex tmp = list.get(0);
 		for(int i = 1; i < list.size(); i++)
 			tmp = tmp.subtract(list.get(i));
 		stack.stack_clear();
@@ -77,8 +204,8 @@ public class Calculator {
 	 * 
 	 */
 	public void multiply() {
-		ArrayList<Complex> list = stack.stack_collect();
-		Complex tmp = list.get(0);
+		ArrayList<OPT_Complex> list = stack.stack_collect();
+		OPT_Complex tmp = list.get(0);
 		for(int i = 1; i < list.size(); i++)
 			tmp = tmp.multiply(list.get(i));
 		stack.stack_clear();
@@ -90,8 +217,8 @@ public class Calculator {
 	 * 
 	 */
 	public void divide() {
-		ArrayList<Complex> list = stack.stack_collect();
-		Complex tmp = list.get(0);
+		ArrayList<OPT_Complex> list = stack.stack_collect();
+		OPT_Complex tmp = list.get(0);
 		for(int i = 1; i < list.size(); i++)
 			tmp = tmp.divide(list.get(i));
 		stack.stack_clear();
@@ -104,8 +231,8 @@ public class Calculator {
 	 * 
 	 */
 	public void power() {
-		ArrayList<Complex> list = stack.stack_collect();
-		Complex tmp = list.get(0);
+		ArrayList<OPT_Complex> list = stack.stack_collect();
+		OPT_Complex tmp = list.get(0);
 		for(int i = 1; i < list.size(); i++)
 			tmp = tmp.pow(list.get(i));
 		stack.stack_clear();
@@ -117,9 +244,9 @@ public class Calculator {
 	 * 
 	 */
 	public void sqrt() {
-		ArrayList<Complex> list = stack.stack_collect();
+		ArrayList<OPT_Complex> list = stack.stack_collect();
 		stack.stack_clear();
-		for(Complex t : list) {
+		for(OPT_Complex t : list) {
 			stack.stack_push(t.sqrt());
 		}
 	}
@@ -129,9 +256,9 @@ public class Calculator {
 	 * 
 	 */
 	public void negate() {
-		ArrayList<Complex> list = stack.stack_collect();
+		ArrayList<OPT_Complex> list = stack.stack_collect();
 		stack.stack_clear();
-		for(Complex t : list) {
+		for(OPT_Complex t : list) {
 			stack.stack_push(t.negate());
 		}
 	}
@@ -182,7 +309,7 @@ public class Calculator {
          * 
          * @return  the stack.
          */
-        public Advanced_Stack<Complex> getStack(){
+        public Advanced_Stack<OPT_Complex> getStack(){
                 return this.stack;
         }
         
@@ -222,7 +349,7 @@ public class Calculator {
                     else
                         realPart = Double.parseDouble((secondPositive ? "+" : "-") + split[1]);
                 }
-                this.push_num(new Complex(realPart,imgPart));
+                this.push_num(new OPT_Complex(realPart,imgPart));
         }
         
 }
