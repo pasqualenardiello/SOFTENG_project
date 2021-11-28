@@ -1,7 +1,6 @@
 package unisa.group1.test_scalc;
 import java.util.EmptyStackException;
 import java.util.Stack;
-import java.util.List;
 import java.util.ArrayList;
 
 /**

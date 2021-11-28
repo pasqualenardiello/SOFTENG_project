@@ -1,8 +1,6 @@
 package unisa.group1.test_scalc;
-import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +8,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import unisa.group1.test_scalc.Calculator.OPT_Complex;
 
 /**
  * FXML Controller class.

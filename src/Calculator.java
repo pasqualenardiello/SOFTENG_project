@@ -1,19 +1,8 @@
 package unisa.group1.test_scalc;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.math.complex.Complex;
 import org.apache.commons.math.complex.ComplexFormat;
 

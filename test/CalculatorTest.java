@@ -1,15 +1,11 @@
 package unisa.group1.test_scalc;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.TreeMap;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import unisa.group1.test_scalc.Calculator.OPT_Complex;
 
 /**

@@ -1,18 +1,12 @@
 package unisa.group1.test_scalc;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  *
- * @author pasqualenardiello
+ * @author Group 1
  */
 public class Advanced_StackTest {
     
