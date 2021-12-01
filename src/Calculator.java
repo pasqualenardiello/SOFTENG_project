@@ -699,4 +699,61 @@ public class Calculator {
         this.updateVarsProperty();
     }
     
+    /**
+     * Updates stack properties.
+     *
+     */
+    private void updateStackProperty() {
+        stack_p.set(stack.toString().replace("[", "").replace("]", ""));
+    }
+    
+    /**
+     * Updates variables properties.
+     *
+     */
+    private void updateVarsProperty() {
+        String dsp = "";
+        for (Entry<String, OPT_Complex> e : vars.entrySet())
+            dsp += e.toString() + '\n';
+        vars_p.set(dsp);
+    }
+    
+    /**
+     * Updates functions properties.
+     *
+     */
+    private void updateFuncsProperty() {
+        String dsp = "";
+        for (Entry<String, String> e : funcs.entrySet())
+            dsp += e.toString() + '\n';
+        funcs_p.set(dsp);
+    }
+    
+    /**
+     * Retrieves stack property.
+     *
+     * @return  stack property.
+     */
+    public SimpleStringProperty stackProperty() {
+        return stack_p;
+    }
+    
+    /**
+     * Retrieves variables property.
+     *
+     * @return  variables property.
+     */
+    public SimpleStringProperty varsProperty() {
+        return vars_p;
+    }
+    
+    /**
+     * Retrieves functions property.
+     *
+     * @return  functions property.
+     */
+    public SimpleStringProperty funcsProperty() {
+        return funcs_p;
+    }
+    
 }
