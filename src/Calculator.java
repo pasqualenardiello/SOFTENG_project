@@ -143,7 +143,7 @@ public class Calculator {
         public String toString() {
             nf.setMaximumFractionDigits(3);
             format = new ComplexFormat(nf);
-            return "(" + format.format(this) + ")";
+            return "(" + format.format(this).replace(".", "").replace(",", ".") + ")";
         }
         
         /**
