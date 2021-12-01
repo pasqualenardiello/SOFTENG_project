@@ -658,4 +658,45 @@ public class Calculator {
                 return false;
         }
     
+    /**
+     * Stores the variables map in a local file.
+     *
+     * @throws IOException  if there is an IO Error.
+     */
+    public void save_var() throws IOException {
+        TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+        try {
+            ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("vars.bin"));
+            for (Entry<String, OPT_Complex> e : vars.entrySet()){
+                ArrayList<Double> t = new ArrayList<>();
+                t.add(e.getValue().getReal());
+                t.add(e.getValue().getImaginary());
+                tmp.put(e.getKey(), t);
+            }
+            o.writeObject(tmp);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    /**
+     * Loads the variables map from a local file.
+     *
+     * @throws IOException  if there is an IO Error.
+     * @throws ClassNotFoundException   if the cast Class is not in the scope.
+     */
+    public void load_var() throws IOException, ClassNotFoundException {
+        TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+        try {
+            ObjectInputStream i = new ObjectInputStream(new FileInputStream("vars.bin"));
+            tmp = (TreeMap<String, ArrayList<Double>>) i.readObject();
+            vars.clear();
+            for (Entry<String, ArrayList<Double>> e : tmp.entrySet())
+                vars.put(e.getKey(), new OPT_Complex(e.getValue().get(0), e.getValue().get(1)));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.updateVarsProperty();
+    }
+    
 }
