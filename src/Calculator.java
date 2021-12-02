@@ -1,4 +1,5 @@
 package unisa.group1.test_scalc;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -487,7 +488,6 @@ public class Calculator {
          * Parses a number to the correct complex form.
          * 
          * @param s the number.
-         * @throws ParseException when not correctly parsed.
          */
         public void parse_num(String s) throws NumberFormatException {
             s = s.replace(" ", "").replace("\t", "");
@@ -529,7 +529,7 @@ public class Calculator {
          * 
          * @param i the array of strings;
          */
-        public void clear_parse_seq(String[] i) {
+        void clear_parse_seq(String[] i) {
             stack.stack_clear();
             for (String s : i){
                 s = s.replace("(", "").replace(")", "");
@@ -657,103 +657,302 @@ public class Calculator {
             else
                 return false;
         }
-    
-    /**
-     * Stores the variables map in a local file.
-     *
-     * @throws IOException  if there is an IO Error.
-     */
-    public void save_var() throws IOException {
-        TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
-        try {
-            ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("vars.bin"));
-            for (Entry<String, OPT_Complex> e : vars.entrySet()){
-                ArrayList<Double> t = new ArrayList<>();
-                t.add(e.getValue().getReal());
-                t.add(e.getValue().getImaginary());
-                tmp.put(e.getKey(), t);
+        
+        /**
+         * Retrieves the map of functions.
+         * 
+         * @return  the map functions.
+         */
+        public TreeMap<String, String> getFuncs() {
+            return funcs;
+        }
+        
+        /**
+         * Adds a function to the map.
+         * 
+         * @param key   the key.
+         * @param val   the function.
+         */
+        public void add_func(String key, String val) {
+            if (!val.contains(key))
+                funcs.put(key, val);
+            this.updateFuncsProperty();
+        }
+        
+        /**
+         * Retrieves a single function from the map.
+         * 
+         * @param key   the key.
+         * @return  the function.
+         * @throws NullPointerException if there is no entry corresponding to key.
+         */
+        public String get_func(String key) throws NullPointerException {
+            if (!funcs.containsKey(key))
+                throw new NullPointerException();
+            return funcs.get(key);
+        }
+        
+        /**
+         * Removes a function from the map.
+         * 
+         * @param key   the key.
+         * @throws NullPointerException if there is no entry corresponding to key.
+         */
+        public void rem_func(String key) throws NullPointerException {
+            funcs.remove(key);
+            this.updateFuncsProperty();
+        }
+        
+        /**
+         * Stores the functions map in a local file.
+         * 
+         * @throws IOException  if there is an IO Error.
+         */
+        public void save_func() throws IOException {
+            try {
+                ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("funcs.bin"));
+                o.writeObject(this.funcs);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
             }
-            o.writeObject(tmp);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
-    /**
-     * Loads the variables map from a local file.
-     *
-     * @throws IOException  if there is an IO Error.
-     * @throws ClassNotFoundException   if the cast Class is not in the scope.
-     */
-    public void load_var() throws IOException, ClassNotFoundException {
-        TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
-        try {
-            ObjectInputStream i = new ObjectInputStream(new FileInputStream("vars.bin"));
-            tmp = (TreeMap<String, ArrayList<Double>>) i.readObject();
-            vars.clear();
-            for (Entry<String, ArrayList<Double>> e : tmp.entrySet())
-                vars.put(e.getKey(), new OPT_Complex(e.getValue().get(0), e.getValue().get(1)));
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+        
+        /**
+         * Loads the functions map from a local file.
+         * 
+         * @throws IOException  if there is an IO Error.
+         * @throws ClassNotFoundException   if the cast Class is not in the Scope.
+         */
+        public void load_func() throws IOException, ClassNotFoundException {
+            try {
+                ObjectInputStream i = new ObjectInputStream(new FileInputStream("funcs.bin"));
+                this.funcs = (TreeMap<String, String>) i.readObject();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.updateFuncsProperty();
         }
-        this.updateVarsProperty();
-    }
-    
-    /**
-     * Updates stack properties.
-     *
-     */
-    private void updateStackProperty() {
-        stack_p.set(stack.toString().replace("[", "").replace("]", ""));
-    }
-    
-    /**
-     * Updates variables properties.
-     *
-     */
-    private void updateVarsProperty() {
-        String dsp = "";
-        for (Entry<String, OPT_Complex> e : vars.entrySet())
-            dsp += e.toString() + '\n';
-        vars_p.set(dsp);
-    }
-    
-    /**
-     * Updates functions properties.
-     *
-     */
-    private void updateFuncsProperty() {
-        String dsp = "";
-        for (Entry<String, String> e : funcs.entrySet())
-            dsp += e.toString() + '\n';
-        funcs_p.set(dsp);
-    }
-    
-    /**
-     * Retrieves stack property.
-     *
-     * @return  stack property.
-     */
-    public SimpleStringProperty stackProperty() {
-        return stack_p;
-    }
-    
-    /**
-     * Retrieves variables property.
-     *
-     * @return  variables property.
-     */
-    public SimpleStringProperty varsProperty() {
-        return vars_p;
-    }
-    
-    /**
-     * Retrieves functions property.
-     *
-     * @return  functions property.
-     */
-    public SimpleStringProperty funcsProperty() {
-        return funcs_p;
-    }
-    
+        
+        /**
+         * Parses and executes functions recursively.
+         * 
+         * @param func  the function.
+         * @throws IOException  if there is an IO Error.
+         * @throws ClassNotFoundException   if the cast Class is not in the Scope.
+         * @throws ParseException   if the function is parsed incorrectly.
+         */
+        public void parse_func(String func) throws IOException, ClassNotFoundException, ParseException {
+            String[] f = func.split(" ");
+            for (String s : f) {
+                if (s.equals("save"))
+                    this.save_var();
+                else if (s.equals("restore"))
+                    this.load_var();
+                else if (s.equals("+"))
+                    this.sum();
+                else if (s.equals("-"))
+                    this.subtract();
+                else if (s.equals("*"))
+                    this.multiply();
+                else if (s.equals("/"))
+                    this.divide();
+                else if (s.equals("pow"))
+                    this.power();
+                else if (s.equals("sqrt"))
+                    this.sqrt();
+                else if (s.equals("+-"))
+                    this.negate();
+                else if (s.equals("clear"))
+                    this.clear();
+                else if (s.equals("drop"))
+                    this.drop();
+                else if (s.equals("dup"))
+                    this.dup();
+                else if (s.equals("swap"))
+                    this.swap();
+                else if (s.equals("over"))
+                    this.over();
+                else if (this.parse_var(s));
+                else if (funcs.containsKey(s))
+                    this.parse_func(funcs.get(s));
+                else
+                    this.parse_num(s);
+            }
+            this.updateStackProperty();
+            this.updateVarsProperty();
+        }
+        
+        /**
+         * Stores the variables map in a local file.
+         * 
+         * @throws IOException  if there is an IO Error.
+         */
+        public void save_var() throws IOException {
+            TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+            try {
+                ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream("vars.bin"));
+                for (Entry<String, OPT_Complex> e : vars.entrySet()){
+                    ArrayList<Double> t = new ArrayList<>();
+                    t.add(e.getValue().getReal());
+                    t.add(e.getValue().getImaginary());
+                    tmp.put(e.getKey(), t);
+                }
+                o.writeObject(tmp);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        /**
+         * Loads the variables map from a local file.
+         * 
+         * @throws IOException  if there is an IO Error.
+         * @throws ClassNotFoundException   if the cast Class is not in the scope.
+         */
+        public void load_var() throws IOException, ClassNotFoundException {
+            TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+            try {
+                ObjectInputStream i = new ObjectInputStream(new FileInputStream("vars.bin"));
+                tmp = (TreeMap<String, ArrayList<Double>>) i.readObject();
+                vars.clear();
+                for (Entry<String, ArrayList<Double>> e : tmp.entrySet())
+                    vars.put(e.getKey(), new OPT_Complex(e.getValue().get(0), e.getValue().get(1)));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.updateVarsProperty();
+        }
+
+        /**
+         * Updates stack properties.
+         * 
+         */
+        private void updateStackProperty() {
+            stack_p.set(stack.toString().replace("[", "").replace("]", ""));
+        }
+        
+        /**
+         * Updates variables properties.
+         * 
+         */
+        private void updateVarsProperty() {
+            String dsp = "";
+            for (Entry<String, OPT_Complex> e : vars.entrySet())
+                dsp += e.toString() + '\n';
+            vars_p.set(dsp);
+        }
+        
+        /**
+         * Updates functions properties.
+         * 
+         */
+        private void updateFuncsProperty() {
+            String dsp = "";
+            for (Entry<String, String> e : funcs.entrySet())
+                dsp += e.toString() + '\n';
+            funcs_p.set(dsp);
+        }
+        
+        /**
+         * Retrieves stack property.
+         * 
+         * @return  stack property.
+         */
+        public SimpleStringProperty stackProperty() {
+            return stack_p;
+        }
+        
+        /**
+         * Retrieves variables property.
+         * 
+         * @return  variables property.
+         */
+        public SimpleStringProperty varsProperty() {
+            return vars_p;
+        }
+        
+        /**
+         * Retrieves functions property.
+         * 
+         * @return  functions property.
+         */
+        public SimpleStringProperty funcsProperty() {
+            return funcs_p;
+        }
+        
+        /**
+         * Stores the variables map in specified file.
+         * 
+         * @param f the file.
+         * @throws IOException  if there is an IO Error.
+         */
+        public void save_var(File f) throws IOException {
+            TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+            try {
+                ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(f));
+                for (Entry<String, OPT_Complex> e : vars.entrySet()){
+                    ArrayList<Double> t = new ArrayList<>();
+                    t.add(e.getValue().getReal());
+                    t.add(e.getValue().getImaginary());
+                    tmp.put(e.getKey(), t);
+                }
+                o.writeObject(tmp);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        /**
+         * Loads the variables map from specified file.
+         * 
+         * @param f the file.
+         * @throws IOException  if there is an IO Error.
+         * @throws ClassNotFoundException   if the cast Class is not in the scope.
+         */
+        public void load_var(File f) throws IOException, ClassNotFoundException {
+            TreeMap<String, ArrayList<Double>> tmp = new TreeMap<>();
+            try {
+                ObjectInputStream i = new ObjectInputStream(new FileInputStream(f));
+                tmp = (TreeMap<String, ArrayList<Double>>) i.readObject();
+                vars.clear();
+                for (Entry<String, ArrayList<Double>> e : tmp.entrySet())
+                    vars.put(e.getKey(), new OPT_Complex(e.getValue().get(0), e.getValue().get(1)));
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.updateVarsProperty();
+        }
+        
+        /**
+         * Stores the functions map in specified file.
+         * 
+         * @param f the file.
+         * @throws IOException  if there is an IO Error.
+         */
+        public void save_func(File f) throws IOException {
+            try {
+                ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(f));
+                o.writeObject(this.funcs);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        /**
+         * Loads the functions map from specified file.
+         * 
+         * @param f the file.
+         * @throws IOException  if there is an IO Error.
+         * @throws ClassNotFoundException   if the cast Class is not in the Scope.
+         */
+        public void load_func(File f) throws IOException, ClassNotFoundException {
+            try {
+                ObjectInputStream i = new ObjectInputStream(new FileInputStream(f));
+                this.funcs = (TreeMap<String, String>) i.readObject();
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            this.updateFuncsProperty();
+        }
+        
 }
