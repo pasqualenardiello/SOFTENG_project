@@ -2,6 +2,7 @@ package unisa.group1.test_scalc;
 import java.util.EmptyStackException;
 import java.util.Stack;
 import java.util.ArrayList;
+import org.apache.commons.math.complex.Complex;
 
 /**
  * Implementation of modified stack
@@ -25,7 +26,7 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * 
 	 */
 	public Advanced_Stack() {
-		super();
+            super();
 	}
 	
 	/**
@@ -35,8 +36,8 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @return	the element just inserted.
 	 */
 	public E stack_push(E e) {
-		this.push(e);
-		return e;
+            this.push(e);
+            return e;
 	}
 	
 	/**
@@ -44,7 +45,7 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * 
 	 */
 	public void stack_clear() {
-		this.clear();
+            this.clear();
 	}
 	
 	/**
@@ -54,7 +55,7 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @throws EmptyStackException	if the stack is empty.
 	 */
 	public E stack_drop() throws EmptyStackException {
-		return this.pop();
+            return this.pop();
 	}
 	
 	/**
@@ -63,8 +64,8 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @throws EmptyStackException	if the stack is empty.
 	 */
 	public void stack_dup() throws EmptyStackException {
-		E tmp = this.peek();
-		this.stack_push(tmp);
+            E tmp = this.peek();
+            this.stack_push(tmp);
 	}
 	
 	/**
@@ -73,10 +74,10 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @throws EmptyStackException	if the stack is empty.
 	 */
 	public void stack_swap() throws EmptyStackException {
-		E t1 = this.stack_drop();
-		E t2 = this.stack_drop();
-		this.stack_push(t1);
-		this.stack_push(t2);
+            E t1 = this.stack_drop();
+            E t2 = this.stack_drop();
+            this.stack_push(t1);
+            this.stack_push(t2);
 	}
 	
 	/**
@@ -86,10 +87,10 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @throws EmptyStackException	if the stack is empty.
 	 */
 	public void stack_over() throws EmptyStackException {
-		E t1 = this.stack_drop();
-		E t2 = this.peek();
-		this.stack_push(t1);
-		this.stack_push(t2);
+            E t1 = this.stack_drop();
+            E t2 = this.peek();
+            this.stack_push(t1);
+            this.stack_push(t2);
 	}
 	
 	/**
@@ -99,10 +100,10 @@ public class Advanced_Stack<E> extends Stack<E> {
 	 * @throws EmptyStackException	if the stack is empty.
 	 */
 	public ArrayList<E> stack_collect() throws EmptyStackException {
-		if(this.isEmpty())
-			throw new EmptyStackException();
-		ArrayList<E> list = new ArrayList<>(this);
-		return list;
+            if(this.isEmpty())
+                throw new EmptyStackException();
+            ArrayList<E> list = new ArrayList<>(this);
+            return list;
 	}
 	
 }

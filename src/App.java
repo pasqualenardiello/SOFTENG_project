@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-
 /**
  * JavaFX main class.
  *
@@ -25,7 +24,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Calc_fx.fxml"));
-        Scene scene = new Scene(root, 1075, 330);
+        Scene scene = new Scene(root, 1082, 487);
         scene.getRoot().setStyle("-fx-font-family: 'serif'");
         primaryStage.setTitle("calc");
         primaryStage.setScene(scene);

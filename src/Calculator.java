@@ -822,6 +822,116 @@ public class Calculator {
             }
             this.updateVarsProperty();
         }
+        
+        /**
+	 * Calculates the cosine for the top element in the stack.
+	 * 
+	 */
+        public void cosine() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.cos());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the sine for the top element in the stack.
+	 * 
+	 */
+        public void sine() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.sin());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the tangent for the top element in the stack.
+	 * 
+	 */
+        public void tangent() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.tan());;
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the arc cosine for the top element in the stack.
+	 * 
+	 */
+        public void arc_cosine() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.acos());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the arc sine for the top element in the stack.
+	 * 
+	 */
+        public void arc_sine() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.asin());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the arc tangent for the top element in the stack.
+	 * 
+	 */
+        public void arc_tangent() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.atan());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the logarithm for the top element in the stack.
+	 * 
+	 */
+        public void logarithm() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.log());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the exponential for the top element in the stack.
+	 * 
+	 */
+        public void exponential() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.exp());
+            this.updateStackProperty();
+        }
+        
+        /**
+	 * Calculates the argument for the top element in the stack.
+	 * 
+	 */
+        public void argument() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.arg());
+            this.updateStackProperty();
+        }
+        
+        /**
+         * Calculates the conjugate for the top element in the stack.
+         * 
+         */
+        public void conjugate() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.conjugate());
+            this.updateStackProperty();
+        }
+        
+        /**
+         * Calculates the module for the top element in the stack.
+         * 
+         */
+        public void module() {
+            OPT_Complex t1 = stack.stack_drop();
+            stack.stack_push(t1.mod());
+            this.updateStackProperty();
+        }
 
         /**
          * Updates stack properties.
