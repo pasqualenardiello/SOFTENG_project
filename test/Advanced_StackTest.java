@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
- * @author Group 1
+ * @author pasqualenardiello
  */
 public class Advanced_StackTest {
     
