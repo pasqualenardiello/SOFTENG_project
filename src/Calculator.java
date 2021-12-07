@@ -674,8 +674,7 @@ public class Calculator {
          * @param val   the function.
          */
         public void add_func(String key, String val) {
-            if (!val.contains(key))
-                funcs.put(key, val);
+            funcs.put(key, val);
             this.updateFuncsProperty();
         }
         
