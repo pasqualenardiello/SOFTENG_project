@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
 import java.text.ParseException;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -225,9 +227,12 @@ public class Calc_javafxController implements Initializable {
         Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread th, Throwable ex) {
+                Optional<Throwable> rootCause = Stream.iterate(ex, Throwable::getCause)
+                                      .filter(element -> element.getCause() == null)
+                                      .findFirst();
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Exception Dialog");
-                alert.setHeaderText("An Exception has just accurred.");
+                alert.setHeaderText("Error: " + rootCause.get().toString());
                 alert.setContentText("The operation you just performed has caused errors.");
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
@@ -260,7 +265,7 @@ public class Calc_javafxController implements Initializable {
      * @throws ParseException   when the pattern is not recognized.
      */
     @FXML
-    private void insert_operand(ActionEvent event) throws ParseException {
+    private void insert_operand(ActionEvent event) throws NumberFormatException {
         String s = insert_text.getText();
         calc.parse_num(s);
     }

@@ -529,7 +529,7 @@ public class Calculator {
          * 
          * @param i the array of strings;
          */
-        void clear_parse_seq(String[] i) {
+        void clear_parse_seq(String[] i) throws NumberFormatException {
             stack.stack_clear();
             for (String s : i){
                 s = s.replace("(", "").replace(")", "");
